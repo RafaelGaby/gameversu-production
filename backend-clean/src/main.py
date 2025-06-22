@@ -37,16 +37,17 @@ CORS(app, origins=['https://gameversu.com', 'http://localhost:5173'], supports_c
 db.init_app(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-# Registrar blueprints
-app.register_blueprint(auth.bp, url_prefix='/api/auth')
-app.register_blueprint(communities.bp, url_prefix='/api/communities')
-app.register_blueprint(events.bp, url_prefix='/api/events')
-app.register_blueprint(posts.bp, url_prefix='/api/posts')
-app.register_blueprint(messages.bp, url_prefix='/api/messages')
-app.register_blueprint(notifications.bp, url_prefix='/api/notifications')
-app.register_blueprint(follows.bp, url_prefix='/api/follows')
-app.register_blueprint(upload.bp, url_prefix='/api/upload')
-app.register_blueprint(user.bp, url_prefix='/api/user')
+# BLOCO CORRIGIDO
+app.register_blueprint(auth.auth_bp, url_prefix='/api/auth')
+app.register_blueprint(communities.communities_bp, url_prefix='/api/communities')
+app.register_blueprint(events.events_bp, url_prefix='/api/events')
+app.register_blueprint(posts.posts_bp, url_prefix='/api/posts')
+app.register_blueprint(messages.messages_bp, url_prefix='/api/messages')
+app.register_blueprint(notifications.notifications_bp, url_prefix='/api/notifications')
+app.register_blueprint(follows.follows_bp, url_prefix='/api/follows')
+app.register_blueprint(upload.upload_bp, url_prefix='/api/upload')
+app.register_blueprint(user.user_bp, url_prefix='/api/user')
+
 
 with app.app_context():
     db.create_all()
