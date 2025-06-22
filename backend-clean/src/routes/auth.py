@@ -1,7 +1,9 @@
 from flask import Blueprint, jsonify, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from src.models.user import User, db
 from datetime import datetime
+
+# CORREÇÃO APLICADA AQUI: trocamos 'src.models.user' por '..models.user'
+from ..models.user import User, db
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -141,4 +143,3 @@ def update_current_user():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
-
