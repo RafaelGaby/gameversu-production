@@ -5,29 +5,29 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_cors import CORS
 import os
 
-# Importações para produção
-from models.user import db
-from routes import auth, communities, events, posts, messages, notifications, follows, upload, user
+# Importações corrigidas para execução como módulo
+from .models.user import db
+from .routes import auth, communities, events, posts, messages, notifications, follows, upload, user
 
 app = Flask(__name__)
+# O ideal é que as instâncias de pastas e db fiquem fora do app factory, mas vamos manter assim por enquanto
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'gameversu-super-secret-key-2025')
 
 # Configuração do banco de dados
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith('postgres://'):
-    # Corrige a URL do SQLAlchemy para o PostgreSQL em produção
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
 
 if database_url:
-    # Produção - PostgreSQL
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 else:
-    # Desenvolvimento - SQLite
-    db_path = os.path.join(os.path.dirname(__file__), 'app.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+    # Em um contexto de módulo, é mais seguro usar caminhos absolutos baseados na instância do app
+    instance_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
+    os.makedirs(instance_path, exist_ok=True)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(instance_path, "app.db")}'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = 'uploads' # Esta pasta também deve ser gerenciada com cuidado
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB
 
 # Configuração CORS
@@ -37,7 +37,7 @@ CORS(app, origins=['https://gameversu.com', 'http://localhost:5173'], supports_c
 db.init_app(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-# Registrar blueprints com prefixo de API
+# Registrar blueprints
 app.register_blueprint(auth.bp, url_prefix='/api/auth')
 app.register_blueprint(communities.bp, url_prefix='/api/communities')
 app.register_blueprint(events.bp, url_prefix='/api/events')
@@ -55,12 +55,12 @@ with app.app_context():
 def health():
     return {'status': 'ok'}
 
-# ... (resto dos seus eventos socketio) ...
-
 @socketio.on('connect')
 def on_connect():
     print(f'Cliente conectado: {request.sid}')
     emit('connected', {'data': 'Conectado!'})
+
+# ... (resto dos seus eventos socketio, se houver mais) ...
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
