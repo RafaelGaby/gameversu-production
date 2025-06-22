@@ -1,4 +1,10 @@
-# -*- coding: utf-8 -*-
+import eventlet
+eventlet.monkey_patch()
+
+# O resto dos seus imports vem depois...
+from flask import Flask, request
+from flask_socketio import SocketIO, emit, join_room, leave_room
+
 
 from flask import Flask, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
