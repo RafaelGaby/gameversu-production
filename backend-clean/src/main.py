@@ -62,7 +62,3 @@ def on_connect():
     emit('connected', {'data': 'Conectado!'})
 
 # ... (resto dos seus eventos socketio, se houver mais) ...
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5001))
-    socketio.run(app, host='0.0.0.0', port=port)
