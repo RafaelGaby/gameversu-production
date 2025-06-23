@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
+// --- CORREÇÃO 1: Imports corrigidos ---
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/buttoncard'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/buttonavatar'
-import { Badge } from '@/components/ui/buttonbadge'
-import { useAuth } from '../hooks/useAuth'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { useAuth } from '@/hooks/useAuth'
 import { 
   User, 
   Calendar, 
@@ -13,6 +14,9 @@ import {
   Settings,
   Edit
 } from 'lucide-react'
+
+// --- CORREÇÃO 2: URL da API vem de uma variável de ambiente ---
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 export default function Profile() {
   const { user } = useAuth()
@@ -26,8 +30,9 @@ export default function Profile() {
   }, [user])
 
   const fetchUserPosts = async () => {
+    if (!user) return; // Garante que user não é nulo
     try {
-      const response = await fetch(`http://localhost:5000/api/posts?user_id=${user.id}`, {
+      const response = await fetch(`${API_URL}/api/posts?user_id=${user.id}`, {
         credentials: 'include'
       })
       
@@ -43,6 +48,7 @@ export default function Profile() {
   }
 
   const formatDate = (dateString) => {
+    if (!dateString) return '';
     const date = new Date(dateString)
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
@@ -51,7 +57,7 @@ export default function Profile() {
     })
   }
 
-  if (loading) {
+  if (loading || !user) { // Adicionado !user para evitar erro se o usuário ainda não carregou
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-primary text-xl neon-glow">Carregando perfil...</div>
@@ -212,4 +218,3 @@ export default function Profile() {
     </div>
   )
 }
-
