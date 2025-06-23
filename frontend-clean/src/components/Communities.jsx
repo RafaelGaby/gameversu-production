@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Badge } from '../ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/buttoncard'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/buttonavatar'
+import { Badge } from '@/components/ui/buttonbadge'
 import { Users, Plus, Lock, Globe } from 'lucide-react'
 
 export default function Communities() {

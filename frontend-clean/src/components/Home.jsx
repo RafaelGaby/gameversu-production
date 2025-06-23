@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Textarea } from '../ui/textarea'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/buttoncard'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/buttonavatar'
+import { Textarea } from '@/components/ui/buttontextarea'
 import { useAuth } from '../hooks/useAuth'
 import { 
   Heart, 

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Input } from '../ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
-import { Label } from '../ui/label'
+import { Input } from '@/components/ui/buttoninput'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/buttoncard'
+import { Label } from '@/components/ui/buttonlabel'
 import { useAuth } from '../../hooks/useAuth'
 import { Gamepad2, Eye, EyeOff } from 'lucide-react'
 
