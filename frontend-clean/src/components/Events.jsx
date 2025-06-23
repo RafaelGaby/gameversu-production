@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
+// --- CORREÇÃO 1: Caminhos de import corrigidos ---
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Badge } from '../ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import { Calendar, MapPin, Users, Plus, Clock, Globe } from 'lucide-react'
+
+// --- CORREÇÃO 2: URL da API vem de uma variável de ambiente ---
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 export default function Events() {
   const [events, setEvents] = useState([])
@@ -15,7 +19,7 @@ export default function Events() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/events', {
+      const response = await fetch(`${API_URL}/api/events`, {
         credentials: 'include'
       })
       
@@ -32,7 +36,7 @@ export default function Events() {
 
   const joinEvent = async (eventId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/events/${eventId}/join`, {
+      const response = await fetch(`${API_URL}/api/events/${eventId}/join`, {
         method: 'POST',
         credentials: 'include'
       })
@@ -202,4 +206,3 @@ export default function Events() {
     </div>
   )
 }
-
