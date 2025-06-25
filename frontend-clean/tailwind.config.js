@@ -1,4 +1,3 @@
-cat > frontend-clean/tailwind.config.js << 'EOF'
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -13,4 +12,3 @@ export default {
   },
   plugins: [],
 }
-EOF
